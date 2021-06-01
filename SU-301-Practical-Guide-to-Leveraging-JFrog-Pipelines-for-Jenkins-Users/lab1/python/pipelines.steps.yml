@@ -45,26 +45,26 @@ pipelines:
         - jfrog rt bce ${res_lab1_bi_webapp_python_buildName} ${run_number}
         - jfrog rt bp  ${res_lab1_bi_webapp_python_buildName} ${run_number}
 
-      - name: lab1_scan_webapp_python
-        type: XrayScan
-        configuration:
-          failOnScan: false
-          inputResources:
-            - name: lab1_bi_webapp_anaconda
-              trigger: true
+  - name: lab1_scan_webapp_python
+    type: XrayScan
+    configuration:
+      failOnScan: false
+      inputResources:
+        - name: lab1_bi_webapp_anaconda
+          trigger: true
 
-      - name: lab1_promote_bi_webapp_python
-        type: PromoteBuild
-        configuration:
-          targetRepository: ${genericPromotionRepo}
-          includeDependencies: false
-          status: XRAY_SCAN_OK
-          comment: build passed Xray Scan
-          copy: false
-          inputSteps:
-            - name: lab1_scan_webapp_python
-          inputResources:
-            - name: lab1_bi_webapp_python
-          outputResources:
-            - name: lab1_bi_webapp_python_promoted
+  - name: lab1_promote_bi_webapp_python
+    type: PromoteBuild
+    configuration:
+      targetRepository: ${genericPromotionRepo}
+      includeDependencies: false
+      status: XRAY_SCAN_OK
+      comment: build passed Xray Scan
+      copy: false
+      inputSteps:
+        - name: lab1_scan_webapp_python
+      inputResources:
+        - name: lab1_bi_webapp_python
+      outputResources:
+        - name: lab1_bi_webapp_python_promoted
 
